@@ -1,0 +1,18 @@
+# Normalize line endings
+* text=auto eol=lf
+
+# Treat the following as binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.svg text eol=lf
+*.ico binary
+
+# Lock files and archives
+*.zip binary
+*.gz binary
+*.tgz binary
+*.7z binary
+package-lock.json -merge
