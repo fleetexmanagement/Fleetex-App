@@ -1,7 +1,7 @@
 
 import { SiteHeader } from "@/components/site-header";
 
-import { AddDriverForm } from "./_components/add-driver-form";
+import { AddDriverForm } from "../_components/add-driver-form";
 
 export default function AddDriverPage() {
   return (
