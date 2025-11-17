@@ -1,34 +1,14 @@
 "use client";
 
-import {
-  IconBuildingWarehouse,
-  IconCar,
-  IconDashboard,
-  IconHelp,
-  IconReportAnalytics,
-  IconRouteAltLeft,
-  IconSatellite,
-  IconSettings,
-  IconShieldCheck,
-  IconTools,
-  IconUserFilled,
-  IconUsersGroup,
-} from "@tabler/icons-react";
 import Link from "next/link";
+import { title } from "process";
 import type * as React from "react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { NavMain } from "./nav-main";
-import { NavRegistration } from "./nav-registration";
-import { NavSecondary } from "./nav-secondary";
 import { NavUser } from "./nav-user";
+import { NavMain } from "./nav-main";
+import { NavSecondary } from "./nav-secondary";
+import { NavRegistration } from "./nav-registration";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { IconBuildingWarehouse, IconCar, IconDashboard, IconHelp, IconReportAnalytics, IconRouteAltLeft, IconSatellite, IconSettings, IconShieldCheck, IconTools, IconUserFilled, IconUsersGroup } from "@tabler/icons-react";
 
 const data = {
   user: {
@@ -45,131 +25,50 @@ const data = {
   ],
   registration: [
     {
-      title: "Admin",
-      url: "/dashboard/admin",
-      icon: IconUserFilled,
-      items: [
-        {
-          title: "Details",
-          url: "/admin/details",
-        },
-        {
-          title: "Add",
-          url: "/admin/add",
-        },
-        {
-          title: "Edit",
-          url: "/admin/edit",
-        },
-        {
-          title: "Delete",
-          url: "/admin/delete",
-        },
-      ],
-    },
-    {
       title: "Driver Management",
       url: "/dashboard/driver-management",
-      icon: IconUsersGroup, // 👤 multiple users for drivers
+      icon: IconUsersGroup,
       items: [
         {
-          title: "Driver List",
+          title: "Driver Registration",
           url: "/dashboard/driver-management",
         },
         {
-          title: "Add Driver",
-          url: "/dashboard/driver-management/add",
-        },
-      ],
-    },
-    {
-      title: "Vehicle Management",
-      url: "/dashboard/vehicle-management",
-      icon: IconCar, // 🚗 car icon for vehicles
-      items: [
-        {
-          title: "Vehicle List",
-          url: "/dashboard/vehicle-management/list",
+          title: "Old Driver Data",
+          url: "/dashboard/driver-management/old-driver-data",
         },
         {
-          title: "Add Vehicle",
-          url: "/dashboard/vehicle-management/add",
-        },
-      ],
-    },
-    {
-      title: "Base Entry",
-      url: "/dashboard/base-entry",
-      icon: IconBuildingWarehouse, // 🏢 warehouse/building for base entry
-      items: [
-        {
-          title: "Base List",
-          url: "/dashboard/base-entry/list",
+          title: "Incident Report",
+          url: "/dashboard/driver-management/incident-report",
         },
         {
-          title: "Add Base",
-          url: "/dashboard/base-entry/add",
-        },
-      ],
-    },
-    {
-      title: "Management System (HSE)",
-      url: "/dashboard/hse-management-system",
-      icon: IconShieldCheck, // 🛡️ shield for safety system
-      items: [
-        {
-          title: "HSE Overview",
-          url: "/dashboard/hse-management-system/overview",
+          title: "Joining",
+          url: "/dashboard/driver-management/joining",
         },
         {
-          title: "Safety Reports",
-          url: "/dashboard/hse-management-system/reports",
-        },
-      ],
-    },
-    {
-      title: "Maintenance",
-      url: "/dashboard/maintenance",
-      icon: IconTools, // 🔧 tools icon for maintenance
-      items: [
-        {
-          title: "Maintenance Schedule",
-          url: "/dashboard/maintenance/schedule",
+          title: "Leave",
+          url: "/dashboard/driver-management/leave",
         },
         {
-          title: "Add Maintenance Record",
-          url: "/dashboard/maintenance/add",
-        },
-      ],
-    },
-    {
-      title: "VTS",
-      url: "/dashboard/vts",
-      icon: IconSatellite, // 🛰️ satellite icon for tracking/VTS
-      items: [
-        {
-          title: "Tracking Overview",
-          url: "/dashboard/vts/overview",
+          title: "Termination",
+          url: "/dashboard/driver-management/termination",
         },
         {
-          title: "Vehicle Logs",
-          url: "/dashboard/vts/logs",
-        },
-      ],
-    },
-    {
-      title: "Reports",
-      url: "/dashboard/reports",
-      icon: IconReportAnalytics, // 📊 analytics icon for reports
-      items: [
-        {
-          title: "Monthly Reports",
-          url: "/dashboard/reports/monthly",
+          title: "Suspension",
+          url: "/dashboard/driver-management/suspension",
         },
         {
-          title: "Custom Reports",
-          url: "/dashboard/reports/custom",
+          title: "Stop Card",
+          url: "/dashboard/driver-management/stop-card",
         },
+        {
+          title: "Violation",
+          url: "/dashboard/driver-management/violation",
+        },
+        {
+          title: "Warning",
+          url: "/dashboard/driver-management/warning",
+        }
       ],
     },
   ],
@@ -217,3 +116,170 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     </Sidebar>
   );
 }
+
+
+
+
+
+// registration: [
+  // {
+  //   title: "Admin",
+  //   url: "/dashboard/admin",
+  //   icon: IconUserFilled,
+  //   items: [
+  //     {
+  //       title: "Details",
+  //       url: "/admin/details",
+  //     },
+  //     {
+  //       title: "Add",
+  //       url: "/admin/add",
+  //     },
+  //     {
+  //       title: "Edit",
+  //       url: "/admin/edit",
+  //     },
+  //     {
+  //       title: "Delete",
+  //       url: "/admin/delete",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Driver Management",
+  //   url: "/dashboard/driver-management",
+  //   icon: IconUsersGroup,
+  //   items: [
+  //     {
+  //       title: "Driver Registration",
+  //       url: "/dashboard/driver-management",
+  //     },
+  //     {
+  //       title: "Old Driver Data",
+  //       url: "/dashboard/driver-management/old-driver-data",
+  //     },
+  //     {
+  //       title: "Incident Report",
+  //       url: "/dashboard/driver-management/incident-report",
+  //     },
+  //     {
+  //       title: "Joining",
+  //       url: "/dashboard/driver-management/joining",
+  //     },
+  //     {
+  //       title: "Leave",
+  //       url: "/dashboard/driver-management/leave",
+  //     },
+  //     {
+  //       title: "Termination",
+  //       url: "/dashboard/driver-management/termination",
+  //     },
+  //     {
+  //       title: "Suspension",
+  //       url: "/dashboard/driver-management/suspension",
+  //     },
+  //     {
+  //       title: "Stop Card",
+  //       url: "/dashboard/driver-management/stop-card",
+  //     },
+  //     {
+  //       title: "Violation",
+  //       url: "/dashboard/driver-management/violation",
+  //     },
+  //     {
+  //       title: "Warning",
+  //       url: "/dashboard/driver-management/warning",
+  //     }
+  //   ],
+  // },
+  // {
+  //   title: "Vehicle Management",
+  //   url: "/dashboard/vehicle-management",
+  //   icon: IconCar, // 🚗 car icon for vehicles
+  //   items: [
+  //     {
+  //       title: "Vehicle List",
+  //       url: "/dashboard/vehicle-management/list",
+  //     },
+  //     {
+  //       title: "Add Vehicle",
+  //       url: "/dashboard/vehicle-management/add",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Base Entry",
+  //   url: "/dashboard/base-entry",
+  //   icon: IconBuildingWarehouse, // 🏢 warehouse/building for base entry
+  //   items: [
+  //     {
+  //       title: "Base List",
+  //       url: "/dashboard/base-entry/list",
+  //     },
+  //     {
+  //       title: "Add Base",
+  //       url: "/dashboard/base-entry/add",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Management System (HSE)",
+  //   url: "/dashboard/hse-management-system",
+  //   icon: IconShieldCheck, // 🛡️ shield for safety system
+  //   items: [
+  //     {
+  //       title: "HSE Overview",
+  //       url: "/dashboard/hse-management-system/overview",
+  //     },
+  //     {
+  //       title: "Safety Reports",
+  //       url: "/dashboard/hse-management-system/reports",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Maintenance",
+  //   url: "/dashboard/maintenance",
+  //   icon: IconTools, // 🔧 tools icon for maintenance
+  //   items: [
+  //     {
+  //       title: "Maintenance Schedule",
+  //       url: "/dashboard/maintenance/schedule",
+  //     },
+  //     {
+  //       title: "Add Maintenance Record",
+  //       url: "/dashboard/maintenance/add",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "VTS",
+  //   url: "/dashboard/vts",
+  //   icon: IconSatellite, // 🛰️ satellite icon for tracking/VTS
+  //   items: [
+  //     {
+  //       title: "Tracking Overview",
+  //       url: "/dashboard/vts/overview",
+  //     },
+  //     {
+  //       title: "Vehicle Logs",
+  //       url: "/dashboard/vts/logs",
+  //     },
+  //   ],
+  // },
+  // {
+  //   title: "Reports",
+  //   url: "/dashboard/reports",
+  //   icon: IconReportAnalytics, // 📊 analytics icon for reports
+  //   items: [
+  //     {
+  //       title: "Monthly Reports",
+  //       url: "/dashboard/reports/monthly",
+  //     },
+  //     {
+  //       title: "Custom Reports",
+  //       url: "/dashboard/reports/custom",
+  //     },
+  //   ],
+  // },
+// ],

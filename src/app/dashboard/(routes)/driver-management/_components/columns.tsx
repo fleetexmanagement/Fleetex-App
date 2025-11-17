@@ -1,31 +1,12 @@
 "use client";
 
-import { MoreHorizontal } from "lucide-react";
 import * as React from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Link from "next/link";
+import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
 import type { SimpleColumn } from "./data-table";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 interface Driver {
   driver_image_path?: string;
@@ -41,10 +22,8 @@ interface Driver {
 }
 
 function RowActions({ row }: { row: Driver }) {
-  const [openSheet, setOpenSheet] = React.useState<null | "add" | "update">(
-    null,
-  );
-  const [openDelete, setOpenDelete] = React.useState(false);
+  const baseUrl = `/dashboard/driver-management/`;
+  const driverId = row.driver_id ? row.driver_id : "";
 
   return (
     <div className="flex justify-end">
@@ -55,88 +34,50 @@ function RowActions({ row }: { row: Driver }) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-40">
-          <DropdownMenuItem onClick={() => setOpenSheet("add")}>
-            Add Driver
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#viewDriver`}>
+              View Driver
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpenSheet("update")}>
-            Update Driver
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#updateCnic`}>
+              Update CNIC
+            </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => setOpenDelete(true)}>
-            Delete Driver
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#updateLicense`}>
+              Update License
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#updateDdc`}>
+              Update DDC
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#updateCovidVaccine`}>
+              Update Covid Vaccine
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#updateMedicalRecord`}>
+              Update Medical Record
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`${baseUrl}${driverId}#deleteDriver`}>
+              Delete Driver
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <Sheet open={!!openSheet} onOpenChange={(o) => !o && setOpenSheet(null)}>
-        <SheetContent side="right" className="w-[420px] sm:w-[520px]">
-          <SheetHeader>
-            <SheetTitle>
-              {openSheet === "add" ? "Add Driver" : "Update Driver"}
-            </SheetTitle>
-          </SheetHeader>
-
-          <div className="mt-6 grid gap-4">
-            <div className="grid gap-2">
-              <Label>Driver Name</Label>
-              <Input
-                defaultValue={openSheet === "update" ? row.driver_name : ""}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label>Father Name</Label>
-              <Input
-                defaultValue={openSheet === "update" ? row.father_name : ""}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label>CNIC</Label>
-              <Input defaultValue={openSheet === "update" ? row.cnic_no : ""} />
-            </div>
-            <div className="grid gap-2">
-              <Label>License</Label>
-              <Input
-                defaultValue={openSheet === "update" ? row.current_license : ""}
-              />
-            </div>
-            <div className="grid gap-2">
-              <Label>Phone</Label>
-              <Input defaultValue={openSheet === "update" ? row.cell_no : ""} />
-            </div>
-            <div className="grid gap-2">
-              <Label>Vehicle No</Label>
-              <Input
-                defaultValue={openSheet === "update" ? row.vehicle_no : ""}
-              />
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Dialog open={openDelete} onOpenChange={setOpenDelete}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete this driver?</DialogTitle>
-          </DialogHeader>
-          <p className="text-sm text-muted-foreground">
-            This action cannot be undone.
-          </p>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setOpenDelete(false)}>
-              Cancel
-            </Button>
-            <Button variant="destructive">Delete</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
 
 export const columns: SimpleColumn<Driver>[] = [
   {
-    key: "driver_image_path",
-    header: "Driver Image",
-    className: "w-[100px]",
+    key: "driver_image_path", header: "Driver Image", className: "w-[100px]",
     render: (row) => (
       <div className="flex items-center">
         <Avatar className="h-9 w-9">

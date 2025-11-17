@@ -1,17 +1,11 @@
 "use client";
 
+import Link from "next/link";
 import * as React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 export type SimpleColumn<T> = {
   key: keyof T | string;
@@ -29,14 +23,7 @@ type DataTableProps<T> = {
   className?: string;
 };
 
-export function DataTable<T extends Record<string, unknown>>({
-  data,
-  columns,
-  searchKeys = [],
-  searchPlaceholder = "Search...",
-  pageSize = 10,
-  className,
-}: DataTableProps<T>) {
+export function DataTable<T extends Record<string, unknown>>({ data, columns, searchKeys = [], searchPlaceholder = "Search...", pageSize = 10, className }: DataTableProps<T>) {
   const [query, setQuery] = React.useState("");
   const [page, setPage] = React.useState(1);
 
@@ -47,8 +34,8 @@ export function DataTable<T extends Record<string, unknown>>({
       searchKeys.some((k) =>
         String(row[k as string] ?? "")
           .toLowerCase()
-          .includes(q),
-      ),
+          .includes(q)
+      )
     );
   }, [data, query, searchKeys]);
 
@@ -71,11 +58,14 @@ export function DataTable<T extends Record<string, unknown>>({
           onChange={(e) => setQuery(e.target.value)}
           className="max-w-[360px]"
         />
+        <Link href="/dashboard/driver-management/add-driver">
+          <Button className="hover:bg-primary/80">Add Driver</Button>
+        </Link>
       </div>
 
       <div className="rounded-lg border bg-card">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-secondary">
             <TableRow>
               {columns.map((c) => (
                 <TableHead key={String(c.key)} className={c.className}>
@@ -94,8 +84,8 @@ export function DataTable<T extends Record<string, unknown>>({
                       .map((c) =>
                         String(
                           (row as Record<string, unknown>)[c.key as string] ??
-                            "",
-                        ),
+                            ""
+                        )
                       )
                       .join("|");
               return (
