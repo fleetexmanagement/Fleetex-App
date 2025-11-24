@@ -33,44 +33,55 @@ const data = {
           title: "Driver Registration",
           url: "/dashboard/driver-management",
         },
-        {
-          title: "Old Driver Data",
-          url: "/dashboard/driver-management/old-driver-data",
-        },
-        {
-          title: "Incident Report",
-          url: "/dashboard/driver-management/incident-report",
-        },
-        {
-          title: "Joining",
-          url: "/dashboard/driver-management/joining",
-        },
-        {
-          title: "Leave",
-          url: "/dashboard/driver-management/leave",
-        },
-        {
-          title: "Termination",
-          url: "/dashboard/driver-management/termination",
-        },
-        {
-          title: "Suspension",
-          url: "/dashboard/driver-management/suspension",
-        },
-        {
-          title: "Stop Card",
-          url: "/dashboard/driver-management/stop-card",
-        },
-        {
-          title: "Violation",
-          url: "/dashboard/driver-management/violation",
-        },
-        {
-          title: "Warning",
-          url: "/dashboard/driver-management/warning",
-        }
+        // {
+        //   title: "Old Driver Data",
+        //   url: "/dashboard/driver-management/old-driver-data",
+        // },
+        // {
+        //   title: "Incident Report",
+        //   url: "/dashboard/driver-management/incident-report",
+        // },
+        // {
+        //   title: "Joining",
+        //   url: "/dashboard/driver-management/joining",
+        // },
+        // {
+        //   title: "Leave",
+        //   url: "/dashboard/driver-management/leave",
+        // },
+        // {
+        //   title: "Termination",
+        //   url: "/dashboard/driver-management/termination",
+        // },
+        // {
+        //   title: "Suspension",
+        //   url: "/dashboard/driver-management/suspension",
+        // },
+        // {
+        //   title: "Stop Card",
+        //   url: "/dashboard/driver-management/stop-card",
+        // },
+        // {
+        //   title: "Violation",
+        //   url: "/dashboard/driver-management/violation",
+        // },
+        // {
+        //   title: "Warning",
+        //   url: "/dashboard/driver-management/warning",
+        // }
       ],
     },
+    {
+      title:"Vehicle Management",
+      url: "/dashboard/vehicle-management",
+      icon: IconUsersGroup,
+      items:[
+        {
+          title: "Vehical Registration",
+          url: "/dashboard/vehicle-management",
+        }
+      ]
+    }
   ],
 
   navSecondary: [

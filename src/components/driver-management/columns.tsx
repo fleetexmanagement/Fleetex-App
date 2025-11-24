@@ -6,7 +6,22 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { SimpleColumn } from "./data-table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
 
 interface Driver {
   driver_image_path?: string;
@@ -24,6 +39,13 @@ interface Driver {
 function RowActions({ row }: { row: Driver }) {
   const baseUrl = `/dashboard/driver-management/`;
   const driverId = row.driver_id ? row.driver_id : "";
+  const [showConfirm, setShowConfirm] = React.useState(false);
+
+  const handleDelete = () => {
+    setShowConfirm(false);
+    // TODO: add actual delete call here
+    console.log(`Delete driver ${driverId}`);
+  };
 
   return (
     <div className="flex justify-end">
@@ -33,51 +55,46 @@ function RowActions({ row }: { row: Driver }) {
             <MoreHorizontal className="size-4" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-40">
+        <DropdownMenuContent align="end" className="w-44">
           <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#viewDriver`}>
-              View Driver
-            </Link>
+            <Link href={`${baseUrl}${driverId}?mode=view`}>View Driver</Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#updateCnic`}>
-              Update CNIC
-            </Link>
+            <Link href={`${baseUrl}${driverId}?mode=update`}>Update Driver</Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#updateLicense`}>
-              Update License
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#updateDdc`}>
-              Update DDC
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#updateCovidVaccine`}>
-              Update Covid Vaccine
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#updateMedicalRecord`}>
-              Update Medical Record
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-            <Link href={`${baseUrl}${driverId}#deleteDriver`}>
-              Delete Driver
-            </Link>
+          <DropdownMenuItem onSelect={() => setShowConfirm(true)}>
+            Delete Driver
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
+
+      <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete driver?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action permanently removes the driver record. You can’t undo this.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setShowConfirm(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
 
 export const columns: SimpleColumn<Driver>[] = [
   {
-    key: "driver_image_path", header: "Driver Image", className: "w-[100px]",
+    key: "driver_image_path",
+    header: "Driver Image",
+    className: "w-[100px]",
     render: (row) => (
       <div className="flex items-center">
         <Avatar className="h-9 w-9">

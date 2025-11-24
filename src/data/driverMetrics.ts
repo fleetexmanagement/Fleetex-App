@@ -1,5 +1,5 @@
-import { driverMetricsSchema } from "@/app/dashboard/(routes)/driver-management/_schema/driverMetrics";
-import type { DriverMetrics } from "@/app/dashboard/(routes)/driver-management/_types/driverMetrics";
+import type { DriverMetrics } from "@/types/driverMetrics";
+import { driverMetricsSchema } from "@/schema/driverMetrics";
 
 // Placeholder data provider. Replace with real API integration.
 export async function getDriverMetrics(): Promise<DriverMetrics> {

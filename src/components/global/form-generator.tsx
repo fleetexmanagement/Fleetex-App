@@ -109,19 +109,9 @@ type FormGeneratorProps<TFieldValues extends FieldValues> =
       formClassName?: never;
     });
 
-export const FormGenerator = <TFieldValues extends FieldValues>({
-  form,
-  fields,
-  sections,
-  onSubmit,
-  submitLabel = "Submit",
-  submitButtonProps,
-  actions,
-  className,
-  formClassName,
-}: FormGeneratorProps<TFieldValues>) => {
+export const FormGenerator = <TFieldValues extends FieldValues>({ form, fields, sections, onSubmit, submitLabel = "Submit", submitButtonProps, actions, className, formClassName }: FormGeneratorProps<TFieldValues>) => {
   const renderWithSections = Array.isArray(sections);
-
+  
   return (
     <Form {...form}>
       <form
@@ -156,38 +146,18 @@ export const FormGenerator = <TFieldValues extends FieldValues>({
               </Card>
             ))}
           </div>
-        ) : (
-          <div className={cn("space-y-6", formClassName)}>
-            {renderFieldsGrid({ form, fields: fields ?? [] })}
-          </div>
+        ) : (<div className={cn("space-y-6", formClassName)}>{renderFieldsGrid({ form, fields: fields ?? [] })}</div>
         )}
 
-        {actions ?? (
-          <Button type="submit" {...submitButtonProps}>
-            {submitLabel}
-          </Button>
-        )}
+        {actions ?? (<Button type="submit" {...submitButtonProps}>{submitLabel}</Button>)}
       </form>
     </Form>
   );
 };
 
-const renderFieldsGrid = <TFieldValues extends FieldValues>({
-  form,
-  fields,
-  layoutClassName,
-}: {
-  form: UseFormReturn<TFieldValues>;
-  fields: FieldConfig<TFieldValues>[];
-  layoutClassName?: string;
-}) => {
+const renderFieldsGrid = <TFieldValues extends FieldValues>({form, fields, layoutClassName }: { form: UseFormReturn<TFieldValues>; fields: FieldConfig<TFieldValues>[]; layoutClassName?: string;}) => {
   return (
-    <div
-      className={cn(
-        "grid gap-4 md:grid-cols-2 xl:grid-cols-4",
-        layoutClassName,
-      )}
-    >
+    <div className={cn("grid gap-4 md:grid-cols-2 xl:grid-cols-4", layoutClassName)}>
       {fields.map((fieldConfig) => (
         <FormField
           key={fieldConfig.name}
@@ -209,19 +179,14 @@ const renderFieldsGrid = <TFieldValues extends FieldValues>({
   );
 };
 
-const renderFieldControl = <TFieldValues extends FieldValues>(
-  fieldConfig: FieldConfig<TFieldValues>,
-  field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>,
-) => {
+const renderFieldControl = <TFieldValues extends FieldValues>(fieldConfig: FieldConfig<TFieldValues>, field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>) => {
   if (fieldConfig.render) {
     return fieldConfig.render(field);
   }
 
   switch (fieldConfig.inputType) {
     case "textarea":
-      return (
-        <Textarea placeholder={fieldConfig.placeholder} rows={fieldConfig.rows} disabled={fieldConfig.disabled} {...field} {...fieldConfig.textareaProps} />
-      );
+      return (<Textarea placeholder={fieldConfig.placeholder} rows={fieldConfig.rows} disabled={fieldConfig.disabled} {...field} {...fieldConfig.textareaProps} />);
     case "select":
       return (
         <Select disabled={fieldConfig.disabled} onValueChange={field.onChange} value={(field.value as string) ?? ""} {...fieldConfig.selectProps} >

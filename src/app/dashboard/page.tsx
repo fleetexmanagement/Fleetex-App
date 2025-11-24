@@ -1,6 +1,6 @@
-import { SiteHeader } from "@/components/site-header";
-import { ChartAreaInteractive } from "./_components/chart-area-interactive";
-import { SectionCards } from "./_components/section-cards";
+import { SiteHeader } from "@/components/global/site-header";
+import { ChartAreaInteractive } from "../../components/dashboard/chart-area-interactive";
+import { SectionCards } from "../../components/dashboard/section-cards";
 
 export default function DashboardPage() {
   return (

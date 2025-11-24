@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ControllerRenderProps, Path, useForm } from "react-hook-form";
-import { FieldConfig, FormGenerator, type FormSectionConfig} from "@/components/form-generator";
+import { FieldConfig, FormGenerator, type FormSectionConfig} from "@/components/global/form-generator";
 
 type DriverFormValues = {
   driverImage: File | null;
@@ -671,14 +671,7 @@ export const AddDriverForm = () => {
       onSubmit={onSubmit}
       submitLabel="Create Driver"
       submitButtonProps={{ className: "w-full sm:w-auto" }}
-      actions={
-        <div className="flex flex-wrap items-center justify-end gap-3">
-          <Button type="button" variant="outline">
-            Save Draft
-          </Button>
-          <Button type="submit">Create Driver</Button>
-        </div>
-      }
+      actions={<Button type="submit">Create Driver</Button>}
       className="space-y-8"
     />
   );
