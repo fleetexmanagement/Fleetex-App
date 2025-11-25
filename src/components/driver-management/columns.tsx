@@ -22,19 +22,7 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
-
-interface Driver {
-  driver_image_path?: string;
-  driver_name?: string;
-  father_name?: string;
-  cnic_no?: string;
-  current_license?: string;
-  cell_no?: string;
-  status?: string;
-  vehicle_no?: string;
-  driver_id?: string | number;
-  [key: string]: unknown;
-}
+import type { Driver } from "@/types/driver";
 
 function RowActions({ row }: { row: Driver }) {
   const baseUrl = `/dashboard/driver-management/`;

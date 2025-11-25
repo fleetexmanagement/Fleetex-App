@@ -1,4 +1,6 @@
-export const getDriverData = [
+import type { Driver } from "@/types/driver";
+
+export const getDriverData: Driver[] = [
   {
     driver_id: "fae34d7a-28b7-4f3e-82e1-9b9ab0e83277",
     driver_name: "Hamza Tariq",

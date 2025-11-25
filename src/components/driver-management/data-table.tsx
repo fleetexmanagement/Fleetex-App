@@ -6,6 +6,13 @@ import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type SimpleColumn<T> = {
   key: keyof T | string;
@@ -21,23 +28,70 @@ type DataTableProps<T> = {
   searchPlaceholder?: string;
   pageSize?: number;
   className?: string;
+  toolbarContent?: React.ReactNode;
+  showAddButton?: boolean;
+  addButtonHref?: string;
+  statusKey?: keyof T | string;
+  statusPlaceholder?: string;
 };
 
-export function DataTable<T extends Record<string, unknown>>({ data, columns, searchKeys = [], searchPlaceholder = "Search...", pageSize = 10, className }: DataTableProps<T>) {
+export function DataTable<T extends Record<string, unknown>>({
+  data,
+  columns,
+  searchKeys = [],
+  searchPlaceholder = "Search...",
+  pageSize = 10,
+  className,
+  toolbarContent,
+  showAddButton = true,
+  addButtonHref = "/dashboard/driver-management/add-driver",
+  statusKey,
+  statusPlaceholder = "Filter by status",
+}: DataTableProps<T>) {
   const [query, setQuery] = React.useState("");
   const [page, setPage] = React.useState(1);
+  const [statusFilter, setStatusFilter] = React.useState("all");
+
+  const statusOptions = React.useMemo(() => {
+    if (!statusKey) return [];
+    const unique = new Set<string>();
+    data.forEach((row) => {
+      const raw = (row as Record<string, unknown>)[statusKey as string];
+      if (raw === undefined || raw === null) return;
+      const value = String(raw).trim();
+      if (value) unique.add(value);
+    });
+    return Array.from(unique).sort((a, b) => a.localeCompare(b));
+  }, [data, statusKey]);
+
+  React.useEffect(() => {
+    if (!statusKey) {
+      setStatusFilter("all");
+      return;
+    }
+    if (statusFilter !== "all" && !statusOptions.includes(statusFilter)) {
+      setStatusFilter("all");
+    }
+  }, [statusKey, statusOptions, statusFilter]);
+
+  const filteredByStatus = React.useMemo(() => {
+    if (!statusKey || statusFilter === "all") return data;
+    return data.filter(
+      (row) => String((row as Record<string, unknown>)[statusKey as string] ?? "") === statusFilter
+    );
+  }, [data, statusFilter, statusKey]);
 
   const filtered = React.useMemo(() => {
-    if (!query.trim()) return data;
+    if (!query.trim()) return filteredByStatus;
     const q = query.toLowerCase();
-    return data.filter((row) =>
+    return filteredByStatus.filter((row) =>
       searchKeys.some((k) =>
         String(row[k as string] ?? "")
           .toLowerCase()
           .includes(q)
       )
     );
-  }, [data, query, searchKeys]);
+  }, [filteredByStatus, query, searchKeys]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   const current = React.useMemo(() => {
@@ -49,18 +103,43 @@ export function DataTable<T extends Record<string, unknown>>({ data, columns, se
     if (page > totalPages) setPage(1);
   }, [totalPages, page]);
 
+  const hasStatusFilter = Boolean(statusKey && statusOptions.length);
+  const showToolbarRow = Boolean(toolbarContent || showAddButton || hasStatusFilter);
+
   return (
-    <div className={cn("space-y-3", className)}>
-      <div className="flex items-center justify-between gap-2">
+    <div className={cn("space-y-4", className)}>
+      <div className="flex flex-wrap items-center justify-between gap-2 space-y-2">
         <Input
           placeholder={searchPlaceholder}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           className="max-w-[360px]"
         />
-        <Link href="/dashboard/driver-management/add-driver">
-          <Button className="hover:bg-primary/80">Add Driver</Button>
-        </Link>
+        {showToolbarRow && (
+          <div className="flex items-center gap-2">
+            {toolbarContent}
+            {hasStatusFilter && (
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder={statusPlaceholder} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all" >All Statuses</SelectItem>
+                  {statusOptions.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {status}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            {showAddButton && (
+              <Link href={addButtonHref}>
+                <Button className="hover:bg-primary/80">Add Driver</Button>
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="rounded-lg border bg-card">
