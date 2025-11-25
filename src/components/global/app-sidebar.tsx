@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { title } from "process";
 import type * as React from "react";
 import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
 import { NavSecondary } from "./nav-secondary";
 import { NavRegistration } from "./nav-registration";
+import { IconDashboard, IconHelp, IconRouteAltLeft, IconSettings } from "@tabler/icons-react";
+import { Bus, UserCog, Users, Building2, ShieldPlus, Wrench, Satellite, FileChartLine } from "lucide-react";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
-import { IconBuildingWarehouse, IconCar, IconDashboard, IconHelp, IconReportAnalytics, IconRouteAltLeft, IconSatellite, IconSettings, IconShieldCheck, IconTools, IconUserFilled, IconUsersGroup } from "@tabler/icons-react";
 
 const data = {
   user: {
@@ -25,63 +25,45 @@ const data = {
   ],
   registration: [
     {
-      title: "Driver Management",
-      url: "/dashboard/driver-management",
-      icon: IconUsersGroup,
-      items: [
-        {
-          title: "Driver Registration",
-          url: "/dashboard/driver-management",
-        },
-        {
-          title: "Old Driver",
-          url: "/dashboard/driver-management/old-driver",
-        },
-        {
-          title: "Incident Report",
-          url: "/dashboard/driver-management/incident-report",
-        },
-        {
-          title: "Joining",
-          url: "/dashboard/driver-management/joining",
-        },
-        {
-          title: "Leave",
-          url: "/dashboard/driver-management/leave",
-        },
-        {
-          title: "Termination",
-          url: "/dashboard/driver-management/termination",
-        },
-        {
-          title: "Suspension",
-          url: "/dashboard/driver-management/suspension",
-        },
-        {
-          title: "Stop Card",
-          url: "/dashboard/driver-management/stop-card",
-        },
-        {
-          title: "Violation",
-          url: "/dashboard/driver-management/violation",
-        },
-        {
-          title: "Warning",
-          url: "/dashboard/driver-management/warning",
-        }
-      ],
+      title: "Admins",
+      url: "/dashboard/admins",
+      icon: UserCog,
     },
     {
-      title:"Vehicle Management",
+      title: "Driver Management",
+      url: "/dashboard/driver-management",
+      icon: Users,
+    },
+    {
+      title: "Vehicle Management",
       url: "/dashboard/vehicle-management",
-      icon: IconUsersGroup,
-      items:[
-        {
-          title: "Vehical Registration",
-          url: "/dashboard/vehicle-management",
-        }
-      ]
-    }
+      icon: Bus,
+    },
+    {
+      title: "Base Entry",
+      url: "/dashboard/base-entry",
+      icon: Building2,
+    },
+    {
+      title: "Management System (HSE)",
+      url: "/dashboard/management-system",
+      icon: ShieldPlus,
+    },
+    {
+      title: "Maintenance",
+      url: "/dashboard/maintenance",
+      icon: Wrench,
+    },
+    {
+      title: "VTS",
+      url: "/dashboard/vts",
+      icon: Satellite,
+    },
+    {
+      title: "Reports",
+      url: "/dashboard/reports",
+      icon: FileChartLine,
+    },
   ],
 
   navSecondary: [
@@ -118,7 +100,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavRegistration items={data.registration} />
+        <NavRegistration items={data.registration} /> 
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

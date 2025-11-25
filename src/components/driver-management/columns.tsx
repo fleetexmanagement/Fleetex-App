@@ -92,7 +92,6 @@ export const columns: SimpleColumn<Driver>[] = [
       </div>
     ),
   },
-  { key: "driver_id", header: "Driver ID", className: "w-[220px]" },
   { key: "driver_name", header: "Driver Name", className: "min-w-[160px]" },
   { key: "father_name", header: "Father Name", className: "min-w-[160px]" },
   { key: "cnic_no", header: "CNIC", className: "min-w-[160px]" },
