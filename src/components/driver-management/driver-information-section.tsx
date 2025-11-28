@@ -10,6 +10,7 @@ import {
   qualificationOptions,
   yesNoOptions,
   vehicleOptions,
+  driverStatusOptions,
   type FieldConfig,
 } from "../../constants/form-constants";
 
@@ -169,6 +170,14 @@ export const DriverInformationSection = ({
         label: "TPPL Policy",
         options: yesNoOptions,
         placeholder: "Select status",
+        className: "py-2",
+      },
+      {
+        inputType: "select",
+        name: "status",
+        label: "Driver Status",
+        options: driverStatusOptions,
+        placeholder: "Select driver status",
         className: "py-2",
       },
     ],

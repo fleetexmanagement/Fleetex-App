@@ -189,6 +189,7 @@ export const ViewDriverDetails = ({
         { label: "Driving Since", value: driver.drivingSince },
         { label: "Police Verification", value: driver.policeVerification },
         { label: "TPPL Policy", value: driver.tpplPolicy },
+        { label: "Driver Status", value: driver.status },
       ],
     },
     {

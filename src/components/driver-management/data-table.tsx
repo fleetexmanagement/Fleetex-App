@@ -142,7 +142,7 @@ export function DataTable<T extends Record<string, unknown>>({
         )}
       </div>
 
-      <div className="rounded-lg border bg-card">
+      <div className="rounded-lg border bg-card"> 
         <Table>
           <TableHeader className="bg-secondary">
             <TableRow>

@@ -1,9 +1,9 @@
 import { getDriverData } from "@/data/driver-data";
 import { SiteHeader } from "@/components/global/site-header";
 import { getDriverMetrics } from "@/data/driverMetrics";
-import { columns } from "../../../components/driver-management/columns";
-import { DataTable } from "../../../components/driver-management/data-table";
-import { MetricCard } from "../../../components/driver-management/MetricCard";
+import { columns } from "../../../../components/driver-management/columns";
+import { DataTable } from "../../../../components/driver-management/data-table";
+import { MetricCard } from "../../../../components/driver-management/MetricCard";
 
 
 export default async function VehicleManagementPage() {

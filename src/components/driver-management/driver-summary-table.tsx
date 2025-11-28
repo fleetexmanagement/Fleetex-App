@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import type { Driver } from "@/types/driver";
@@ -15,11 +16,53 @@ type DriverSummaryTableProps = {
 
 const DEFAULT_EMPTY_MESSAGE = "No drivers match the selected criteria.";
 
+const statusStyles: Record<
+  string,
+  {
+    className: string;
+    label: string;
+  }
+> = {
+  "new joining": {
+    className: "border-emerald-200 bg-emerald-100 text-emerald-700",
+    label: "New Joining",
+  },
+  active: {
+    className: "border-sky-200 bg-sky-100 text-sky-700",
+    label: "Active",
+  },
+  suspended: {
+    className: "border-rose-200 bg-rose-100 text-rose-700",
+    label: "Suspended",
+  },
+  "on leave": {
+    className: "border-amber-200 bg-amber-100 text-amber-700",
+    label: "On Leave",
+  },
+  warning: {
+    className: "border-orange-200 bg-orange-100 text-orange-700",
+    label: "Warning",
+  },
+  terminated: {
+    className: "border-slate-200 bg-slate-100 text-slate-700",
+    label: "Terminated",
+  },
+  inactive: {
+    className: "border-slate-200 bg-slate-100 text-slate-700",
+    label: "Inactive",
+  },
+};
+
+const defaultStatusStyle = {
+  className: "border-muted bg-muted/40 text-foreground",
+  label: "Unknown",
+};
+
 export function DriverSummaryTable({
   data,
   className,
   emptyMessage = DEFAULT_EMPTY_MESSAGE,
-  detailsLabel = "View Driver Details",
+  detailsLabel = "View Driver",
   getDetailsHref = (driver) => `/dashboard/driver-management/${driver.driver_id}?mode=view`,
 }: DriverSummaryTableProps) {
   return (
@@ -31,19 +74,27 @@ export function DriverSummaryTable({
             <TableHead className="min-w-[160px]">CNIC</TableHead>
             <TableHead className="min-w-[140px]">License</TableHead>
             <TableHead className="min-w-[140px]">Vehicle No</TableHead>
-            <TableHead className="text-right w-[160px]">Actions</TableHead>
+            <TableHead className="min-w-[120px]">Status</TableHead>
+            <TableHead className="text-right w-[240px]">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="py-8 text-center text-sm text-muted-foreground">
+              <TableCell colSpan={6} className="py-8 text-center text-sm text-muted-foreground">
                 {emptyMessage}
               </TableCell>
             </TableRow>
           )}
           {data.map((driver) => {
             const href = getDetailsHref(driver);
+            const rawStatus = driver.status?.toString() ?? "";
+            const normalized = rawStatus.trim().toLowerCase();
+            const { className, label } = statusStyles[normalized] ?? {
+              ...defaultStatusStyle,
+              label: rawStatus || defaultStatusStyle.label,
+            };
+
             return (
               <TableRow key={driver.driver_id ?? driver.driver_name}>
                 <TableCell>
@@ -61,10 +112,20 @@ export function DriverSummaryTable({
                 <TableCell>{driver.cnic_no ?? "—"}</TableCell>
                 <TableCell>{driver.current_license ?? "—"}</TableCell>
                 <TableCell>{driver.vehicle_no ?? "—"}</TableCell>
+                <TableCell>
+                  <Badge variant="outline" className={`capitalize ${className}`}>
+                    {label}
+                  </Badge>
+                </TableCell>
                 <TableCell className="text-right">
-                  <Button asChild variant="outline" size="sm" className="hover:bg-primary/10">
-                    <Link href={href}>{detailsLabel}</Link>
-                  </Button>
+                  <div className="flex items-center justify-end gap-2">
+                    <Button asChild variant="outline" size="sm" className="hover:bg-primary/10">
+                      <Link href={href}>{detailsLabel}</Link>
+                    </Button>
+                    <Button variant="outline" size="sm" className="hover:bg-primary/10" disabled>
+                      View Reason
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             );

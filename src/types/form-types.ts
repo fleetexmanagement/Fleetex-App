@@ -67,6 +67,7 @@ export type DriverFormValues = {
   referencePhone: string;
   referenceAddress: string;
   languagePreference: string;
+  status: string;
 };
 
 export const defaultDriverFormValues: DriverFormValues = {
@@ -134,5 +135,6 @@ export const defaultDriverFormValues: DriverFormValues = {
   referencePhone: "",
   referenceAddress: "",
   languagePreference: "",
+  status: "",
 };
 

@@ -1,21 +1,15 @@
 import { getDriverData } from "@/data/driver-data";
-import { SiteHeader } from "@/components/global/site-header";
 import { getDriverMetrics } from "@/data/driverMetrics";
-import { columns } from "../../../components/driver-management/columns";
-import { DataTable } from "../../../components/driver-management/data-table";
-import { MetricCard } from "../../../components/driver-management/MetricCard";
-import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { IconAlertCircle, IconStopwatch, IconUserPlus, IconUsersGroup } from "@tabler/icons-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetTitle, SheetContent, SheetDescription, SheetHeader } from "@/components/ui/sheet";
-import { SheetTrigger } from "@/components/ui/sheet";
-import { DriverSummaryTable } from "@/components/driver-management/driver-summary-table";
+import { SiteHeader } from "@/components/global/site-header";
+import { columns } from "../../../../components/driver-management/columns";
+import { DataTable } from "../../../../components/driver-management/data-table";
+import { MetricCard } from "../../../../components/driver-management/MetricCard";
+import { DriverSummaryTableDialog } from "@/components/driver-management/driver-summary-table-dialog";
 
 
 type DriverLink = {
   title: string;
-  href: string;
-  icon: typeof IconUsersGroup;
+  iconName: "IconUsersGroup" | "IconUserPlus" | "IconAlertCircle" | "IconStopwatch";
   statusFilter?: string;
 };
 
@@ -25,53 +19,44 @@ export default async function DriverManagementPage() {
   const driversLink: DriverLink[] = [
     {
       title: "Old Drivers",
-      href: "/dashboard/driver-management/old-driver",
-      icon: IconUsersGroup,
+      iconName: "IconUsersGroup",
     },
     {
       title: "New Joining",
-      href: "/dashboard/driver-management/new-joining",
-      icon: IconUserPlus,
+      iconName: "IconUserPlus",
       statusFilter: "New Joining",
     },
     {
       title: "On Leave",
-      href: "/dashboard/driver-management/drivers-on-leave",
-      icon: IconUsersGroup,
+      iconName: "IconUsersGroup",
       statusFilter: "On Leave",
     },
     {
       title: "On Termination",
-      href: "/dashboard/driver-management/drivers-on-termination",
-      icon: IconUsersGroup,
+      iconName: "IconUsersGroup",
       statusFilter: "Terminated",
     },
     {
       title: "On Suspension",
-      href: "/dashboard/driver-management/drivers-on-suspension",
-      icon: IconUsersGroup,
+      iconName: "IconUsersGroup",
       statusFilter: "Suspended",
     },
     {
       title: "On Warning",
-      href: "/dashboard/driver-management/drivers-on-warning",  
-      icon: IconUsersGroup,
+      iconName: "IconUsersGroup",
       statusFilter: "Warning",
     },
     {
       title: "Violation",
-      href: "/dashboard/driver-management/violation",
-      icon: IconAlertCircle,
+      iconName: "IconAlertCircle",
     },
     {
       title: "Stop Card",
-      href: "/dashboard/driver-management/stop-card",
-      icon: IconStopwatch,
+      iconName: "IconStopwatch",
     },
     {
       title: "Incident Report",
-      href: "/dashboard/driver-management/incident-report",
-      icon: IconAlertCircle,
+      iconName: "IconAlertCircle",
     },
   ];
 
@@ -97,30 +82,12 @@ export default async function DriverManagementPage() {
             : getDriverData;
 
           return (
-            <Card
+            <DriverSummaryTableDialog
               key={link.title}
-              className="cursor-pointer hover:bg-accent hover:text-accent-foreground py-3 sm:py-4"
-            >
-              {/* When someone click on the card, it use sheet component and when someone click on it the sheet open in the bottom of the screen*/}
-              <Sheet>
-                <SheetTrigger asChild>
-                  <CardHeader className="flex items-center gap-2 sm:gap-3 py-0">
-                    <Button variant="outline" size="icon" className="h-7 w-7 sm:h-9 sm:w-9">
-                      <link.icon className="size-4" />
-                    </Button>
-                    <CardTitle className="text-sm sm:text-base"> {link.title} </CardTitle>
-                  </CardHeader>
-                </SheetTrigger>
-                <SheetContent side="right" className="px-4">
-                  <SheetHeader>
-                    <SheetTitle> {link.title} </SheetTitle>
-                  </SheetHeader>
-                  <div className="mt-4">
-                    <DriverSummaryTable data={filteredData} />
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </Card>
+              title={link.title}
+              iconName={link.iconName}
+              data={filteredData}
+            />
           );
         })}
       </div>

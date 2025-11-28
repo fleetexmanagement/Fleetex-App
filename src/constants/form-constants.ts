@@ -96,3 +96,12 @@ export const typeOfVehicleOptions = [
   { value: "TRAILER", label: "Trailer" },
 ];
 
+export const driverStatusOptions = [
+  { value: "Active", label: "Active" },
+  { value: "New Joining", label: "New Joining" },
+  { value: "On Leave", label: "On Leave" },
+  { value: "Terminated", label: "Terminated" },
+  { value: "Suspended", label: "Suspended" },
+  { value: "Warning", label: "Warning" },
+];
+

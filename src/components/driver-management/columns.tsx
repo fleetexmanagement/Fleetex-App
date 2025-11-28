@@ -23,6 +23,7 @@ import {
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import type { Driver } from "@/types/driver";
+import { Badge } from "@/components/ui/badge";
 
 function RowActions({ row }: { row: Driver }) {
   const baseUrl = `/dashboard/driver-management/`;
@@ -78,6 +79,44 @@ function RowActions({ row }: { row: Driver }) {
   );
 }
 
+const statusStyles: Record<
+  string,
+  {
+    className: string;
+    label: string;
+  }
+> = {
+  "new joining": {
+    className: "border-emerald-200 bg-emerald-100 text-emerald-700",
+    label: "New Joining",
+  },
+  active: {
+    className: "border-sky-200 bg-sky-100 text-sky-700",
+    label: "Active",
+  },
+  suspended: {
+    className: "border-rose-200 bg-rose-100 text-rose-700",
+    label: "Suspended",
+  },
+  "on leave": {
+    className: "border-amber-200 bg-amber-100 text-amber-700",
+    label: "On Leave",
+  },
+  warning: {
+    className: "border-orange-200 bg-orange-100 text-orange-700",
+    label: "Warning",
+  },
+  inactive: {
+    className: "border-slate-200 bg-slate-100 text-slate-700",
+    label: "Inactive",
+  },
+};
+
+const defaultStatusStyle = {
+  className: "border-muted bg-muted/40 text-foreground",
+  label: "Unknown",
+};
+
 export const columns: SimpleColumn<Driver>[] = [
   {
     key: "driver_image_path",
@@ -97,7 +136,25 @@ export const columns: SimpleColumn<Driver>[] = [
   { key: "cnic_no", header: "CNIC", className: "min-w-[160px]" },
   { key: "current_license", header: "License", className: "min-w-[140px]" },
   { key: "cell_no", header: "Phone", className: "min-w-[140px]" },
-  { key: "status", header: "Status", className: "min-w-[120px]" },
+  {
+    key: "status",
+    header: "Status",
+    className: "min-w-[120px]",
+    render: (row) => {
+      const rawStatus = row.status?.toString() ?? "";
+      const normalized = rawStatus.trim().toLowerCase();
+      const { className, label } = statusStyles[normalized] ?? {
+        ...defaultStatusStyle,
+        label: rawStatus || defaultStatusStyle.label,
+      };
+
+      return (
+        <Badge variant="outline" className={`capitalize ${className}`}>
+          {label}
+        </Badge>
+      );
+    },
+  },
   { key: "vehicle_no", header: "Vehicle No", className: "min-w-[120px]" },
   {
     key: "actions",
