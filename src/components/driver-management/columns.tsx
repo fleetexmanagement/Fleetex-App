@@ -24,11 +24,13 @@ import {
 } from "@/components/ui/alert-dialog";
 import type { Driver } from "@/types/driver";
 import { Badge } from "@/components/ui/badge";
+import { UpdateStatusDialog } from "./update-status-dialog";
 
 function RowActions({ row }: { row: Driver }) {
   const baseUrl = `/dashboard/driver-management/`;
   const driverId = row.driver_id ? row.driver_id : "";
   const [showConfirm, setShowConfirm] = React.useState(false);
+  const [showUpdateStatus, setShowUpdateStatus] = React.useState(false);
 
   const handleDelete = () => {
     setShowConfirm(false);
@@ -51,6 +53,9 @@ function RowActions({ row }: { row: Driver }) {
           <DropdownMenuItem asChild>
             <Link href={`${baseUrl}${driverId}?mode=update`}>Update Driver</Link>
           </DropdownMenuItem>
+          <DropdownMenuItem onSelect={() => setShowUpdateStatus(true)}>
+            Update Status
+          </DropdownMenuItem>
           <DropdownMenuItem onSelect={() => setShowConfirm(true)}>
             Delete Driver
           </DropdownMenuItem>
@@ -62,7 +67,7 @@ function RowActions({ row }: { row: Driver }) {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete driver?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action permanently removes the driver record. You can’t undo this.
+              This action permanently removes the driver record. You can't undo this.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -75,6 +80,13 @@ function RowActions({ row }: { row: Driver }) {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
+
+      <UpdateStatusDialog
+        open={showUpdateStatus}
+        onOpenChange={setShowUpdateStatus}
+        driver={row}
+        currentStatus={row.status}
+      />
     </div>
   );
 }

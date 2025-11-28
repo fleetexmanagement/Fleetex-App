@@ -1,8 +1,19 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import type { Driver } from "@/types/driver";
 
@@ -65,6 +76,23 @@ export function DriverSummaryTable({
   detailsLabel = "View Driver",
   getDetailsHref = (driver) => `/dashboard/driver-management/${driver.driver_id}?mode=view`,
 }: DriverSummaryTableProps) {
+  const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null);
+  const [reasonDialogOpen, setReasonDialogOpen] = useState(false);
+
+  const handleViewReason = (driver: Driver) => {
+    setSelectedDriver(driver);
+    setReasonDialogOpen(true);
+  };
+
+  const reasonTitle =
+    (selectedDriver?.reasonTitle as string) ||
+    (selectedDriver?.reason_title as string) ||
+    "No reason recorded";
+  const reasonDescription =
+    (selectedDriver?.reasonDescription as string) ||
+    (selectedDriver?.reason_description as string) ||
+    "This driver does not have a recorded reason yet.";
+
   return (
     <div className={cn("rounded-lg border bg-card", className)}>
       <Table>
@@ -122,7 +150,12 @@ export function DriverSummaryTable({
                     <Button asChild variant="outline" size="sm" className="hover:bg-primary/10">
                       <Link href={href}>{detailsLabel}</Link>
                     </Button>
-                    <Button variant="outline" size="sm" className="hover:bg-primary/10" disabled>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="hover:bg-primary/10"
+                      onClick={() => handleViewReason(driver)}
+                    >
                       View Reason
                     </Button>
                   </div>
@@ -132,6 +165,33 @@ export function DriverSummaryTable({
           })}
         </TableBody>
       </Table>
+      <Dialog open={reasonDialogOpen} onOpenChange={setReasonDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reason Details</DialogTitle>
+            <DialogDescription>
+              {selectedDriver
+                ? `Status notes for ${selectedDriver.driver_name ?? "this driver"}.`
+                : "Status notes"}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-1 rounded-md border border-border/60 p-3">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Reason Title</p>
+              <p className="font-semibold text-foreground">{reasonTitle}</p>
+            </div>
+            <div className="space-y-1 rounded-md border border-border/60 p-3">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Reason Description</p>
+              <p className="text-sm text-muted-foreground">{reasonDescription}</p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setReasonDialogOpen(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

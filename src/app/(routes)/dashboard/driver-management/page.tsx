@@ -4,7 +4,11 @@ import { SiteHeader } from "@/components/global/site-header";
 import { columns } from "../../../../components/driver-management/columns";
 import { DataTable } from "../../../../components/driver-management/data-table";
 import { MetricCard } from "../../../../components/driver-management/MetricCard";
-import { DriverSummaryTableDialog } from "@/components/driver-management/driver-summary-table-dialog";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { Button } from "@/components/ui/button";
+import { DriverSummaryTable } from "@/components/driver-management/driver-summary-table";
+import { IconAlertCircle, IconStopwatch, IconUserPlus, IconUsersGroup } from "@tabler/icons-react";
 
 
 type DriverLink = {
@@ -15,6 +19,8 @@ type DriverLink = {
 
 export default async function DriverManagementPage() {
   const metrics = await getDriverMetrics();
+
+  const icons = { IconUsersGroup, IconUserPlus, IconAlertCircle, IconStopwatch } as const;
 
   const driversLink: DriverLink[] = [
     {
@@ -80,14 +86,33 @@ export default async function DriverManagementPage() {
                 (driver) => driver.status?.toLowerCase() === link.statusFilter?.toLowerCase()
               )
             : getDriverData;
+          const IconComponent = icons[link.iconName];
 
           return (
-            <DriverSummaryTableDialog
+            <Card
               key={link.title}
-              title={link.title}
-              iconName={link.iconName}
-              data={filteredData}
-            />
+              className="cursor-pointer hover:bg-accent hover:text-accent-foreground py-3 sm:py-4"
+            >
+              {/* When someone click on the card, it use sheet component and when someone click on it the sheet open in the bottom of the screen*/}
+              <Sheet>
+                <SheetTrigger asChild>
+                  <CardHeader className="flex items-center gap-2 sm:gap-3 py-0">
+                    <Button variant="outline" size="icon" className="h-7 w-7 sm:h-9 sm:w-9">
+                      <IconComponent className="size-4" />
+                    </Button>
+                    <CardTitle className="text-sm sm:text-base"> {link.title} </CardTitle>
+                  </CardHeader>
+                </SheetTrigger>
+                <SheetContent side="right" className="px-4">
+                  <SheetHeader>
+                    <SheetTitle> {link.title} </SheetTitle>
+                  </SheetHeader>
+                  <div className="mt-4">
+                    <DriverSummaryTable data={filteredData} />
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </Card>
           );
         })}
       </div>
