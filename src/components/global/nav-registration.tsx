@@ -1,6 +1,6 @@
 "use client";
 
-import type { Icon } from "@tabler/icons-react";
+import type * as React from "react";
 import { ChevronRight } from "lucide-react";
 import {
   Collapsible,
@@ -23,7 +23,7 @@ interface Items {
   items: {
     title: string;
     url: string;
-    icon?: Icon;
+    icon?: React.ComponentType<{ className?: string }>;
     isActive?: boolean;
     items?: { title: string; url: string }[];
   }[];
